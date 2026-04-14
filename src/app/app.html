@@ -1,0 +1,59 @@
+<div class="container">
+  <h1>Genesys Cloud PKCE Auth POC</h1>
+
+  @if (loading()) {
+    <p class="status">Authenticating with Genesys Cloud…</p>
+  }
+
+  @if (error(); as err) {
+    <p class="error">{{ err }}</p>
+  }
+
+  @if (!authenticated() && !loading()) {
+    <button class="login-btn" (click)="login()">Log in to Genesys Cloud</button>
+  }
+
+  @if (authenticated()) {
+    <button class="logout-btn" (click)="logout()">Logout</button>
+
+    <section>
+      <h2>User Me</h2>
+      @if (userMe(); as user) {
+        <table>
+          <tr><td>Name</td><td>{{ user.name }}</td></tr>
+          <tr><td>Email</td><td>{{ user.email }}</td></tr>
+          <tr><td>ID</td><td>{{ user.id }}</td></tr>
+          <tr><td>Department</td><td>{{ user.department }}</td></tr>
+          <tr><td>Title</td><td>{{ user.title }}</td></tr>
+          <tr><td>State</td><td>{{ user.state }}</td></tr>
+        </table>
+        <details>
+          <summary>Raw JSON</summary>
+          <pre>{{ user | json }}</pre>
+        </details>
+      } @else {
+        <p>Loading user data…</p>
+      }
+    </section>
+
+    <section>
+      <h2>Organization Me</h2>
+      @if (orgMe(); as org) {
+        <table>
+          <tr><td>Name</td><td>{{ org.name }}</td></tr>
+          <tr><td>ID</td><td>{{ org.id }}</td></tr>
+          <tr><td>Domain</td><td>{{ org.domain }}</td></tr>
+          <tr><td>State</td><td>{{ org.state }}</td></tr>
+          <tr><td>Default Language</td><td>{{ org.defaultLanguage }}</td></tr>
+          <tr><td>Default Country</td><td>{{ org.defaultCountryCode }}</td></tr>
+        </table>
+        <details>
+          <summary>Raw JSON</summary>
+          <pre>{{ org | json }}</pre>
+        </details>
+      } @else {
+        <p>Loading organization data…</p>
+      }
+    </section>
+  }
+</div>
